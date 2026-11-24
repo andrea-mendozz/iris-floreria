@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRIS Florería | Finalizar pedido</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ENCABEZADO Y MENÚ -->
+<header class="encabezado">
+    <a class="marca" href="index.html">
+        <span class="marca-nombre">IRIS</span>
+        <span class="marca-subtitulo">Florería</span>
+    </a>
+
+    <button class="boton-menu" type="button"
+        aria-label="Abrir menú" aria-expanded="false">
+        ☰
+    </button>
+
+    <nav class="navegacion">
+        <ul class="menu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <a class="icono-carrito" href="carrito.html" aria-label="Ver carrito">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 3h2l2.2 11.1a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 7H6"/>
+            <circle cx="10" cy="20" r="1.3"/>
+            <circle cx="18" cy="20" r="1.3"/>
+        </svg>
+    </a>
+</header>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="pagina-interna">
+
+    <header class="encabezado-seccion">
+        <p class="sobre-titulo">UN DETALLE ESPECIAL TE ESPERA</p>
+        <h1>Finaliza tu <em>pedido</em></h1>
+        <p>Completa tus datos para continuar con tu compra.</p>
+    </header>
+
+    <section class="contenedor-contacto">
+
+        <!-- INFORMACIÓN Y RESUMEN DE COMPRA -->
+        <section class="texto-contacto">
+            <h2>Información de tu pedido</h2>
+            <p>Revisa tus datos y selecciona la forma en que deseas recibir tus flores.</p>
+
+            <div class="resumen-carrito">
+                <h3>Resumen de compra</h3>
+                <div id="resumen-final"></div>
+                <hr>
+                <p class="fila-resumen total-carrito">
+                    <span>Total</span>
+                    <strong id="total-final">$0 MXN</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- FORMULARIO PARA FINALIZAR EL PEDIDO -->
+        <form class="formulario-contacto" id="formulario-pedido">
+            <fieldset>
+                <legend>Datos del cliente</legend>
+
+                <label for="nombre">Nombre completo *</label>
+                <input type="text" id="nombre" name="nombre"
+                    placeholder="Escribe tu nombre" required minlength="3">
+
+                <label for="correo">Correo electrónico *</label>
+                <input type="email" id="correo" name="correo"
+                    placeholder="ejemplo@correo.com" required>
+
+                <label for="telefono">Teléfono *</label>
+                <input type="tel" id="telefono" name="telefono"
+                    placeholder="10 dígitos" pattern="[0-9]{10}" required>
+
+                <label for="entrega">Tipo de entrega *</label>
+                <select id="entrega" name="entrega" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="Domicilio">Entrega a domicilio</option>
+                    <option value="Recoger">Recoger en tienda</option>
+                </select>
+
+                <label for="direccion">Dirección de entrega</label>
+                <input type="text" id="direccion" name="direccion"
+                    placeholder="Calle, número, colonia y ciudad">
+
+                <label for="fecha">Fecha deseada de entrega</label>
+                <input type="date" id="fecha" name="fecha">
+
+                <label for="pago">Método de pago *</label>
+                <select id="pago" name="pago" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="Transferencia">Transferencia bancaria</option>
+                    <option value="Deposito">Depósito bancario</option>
+                    <option value="Efectivo">Pago en tienda</option>
+                </select>
+
+                <label for="mensaje">Indicaciones adicionales</label>
+                <textarea id="mensaje" name="mensaje" rows="4"
+                    placeholder="Escribe algún detalle de tu pedido..."></textarea>
+
+                <button class="boton boton-principal boton-enviar" type="submit">
+                    Confirmar solicitud de pedido
+                </button>
+            </fieldset>
+        </form>
+
+    </section>
+</main>
+
+<!-- PIE DE PÁGINA -->
+<footer class="pie-pagina">
+    <a class="marca marca-pie" href="index.html">
+        <span class="marca-nombre">IRIS</span>
+        <span class="marca-subtitulo">Florería</span>
+    </a>
+    <p>Flores para acompañar tus momentos especiales.</p>
+    <p class="copyright">© 2026 IRIS Florería. Todos los derechos reservados.</p>
+</footer>
+
+<!-- FUNCIONES PARA FINALIZAR EL PEDIDO -->
+<script>
+// RECUPERAR EL CARRITO Y MOSTRAR EL RESUMEN DE COMPRA
+const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+const resumen = document.getElementById("resumen-final");
+
+let total = 0;
+
+// CALCULAR EL TOTAL DE LOS PRODUCTOS
+if (carrito.length === 0) {
+    resumen.textContent = "No hay productos en tu carrito.";
+    document.querySelector("#formulario-pedido button").disabled = true;
+} else {
+    carrito.forEach(producto => {
+        const importe = producto.precio * producto.cantidad;
+        total += importe;
+
+        const fila = document.createElement("p");
+        fila.className = "fila-resumen";
+        fila.textContent = producto.nombre + " x " +
+            producto.cantidad + " — $" +
+            importe.toLocaleString("es-MX");
+
+        resumen.appendChild(fila);
+    });
+}
+
+// MOSTRAR EL TOTAL DE LA COMPRA
+document.getElementById("total-final").textContent =
+    "$" + total.toLocaleString("es-MX") + " MXN";
+
+// ESTABLECER LA FECHA MÍNIMA DE ENTREGA
+const fecha = document.getElementById("fecha");
+const hoy = new Date();
+fecha.min = hoy.getFullYear() + "-" +
+    String(hoy.getMonth() + 1).padStart(2, "0") + "-" +
+    String(hoy.getDate()).padStart(2, "0");
+
+// SOLICITAR DIRECCIÓN SOLO PARA ENTREGA A DOMICILIO
+document.getElementById("entrega").addEventListener("change", function() {
+    const direccion = document.getElementById("direccion");
+    direccion.required = this.value === "Domicilio";
+});
+
+// VALIDAR Y GUARDAR LA SOLICITUD DEL PEDIDO
+document.getElementById("formulario-pedido").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    if (carrito.length === 0) {
+        alert("Tu carrito está vacío.");
+        return;
+    }
+
+    const datos = new FormData(this);
+    const pedido = {
+        cliente: Object.fromEntries(datos.entries()),
+        productos: carrito,
+        total: total
+    };
+
+    // GUARDAR LOS DATOS DEL ÚLTIMO PEDIDO
+    localStorage.setItem("ultimoPedido", JSON.stringify(pedido));
+
+    alert("Tu solicitud de pedido fue preparada. Para confirmar la compra, IRIS Florería deberá revisar tus datos y acordar el pago y la entrega.");
+});
+</script>
+
+<script src="main.js" defer></script>
+
+</body>
+</html>

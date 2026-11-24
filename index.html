@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="IRIS Florería, flores para tus momentos especiales.">
+    <title>IRIS Florería | Inicio</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ENCABEZADO Y MENÚ DE NAVEGACIÓN -->
+<header class="encabezado">
+    <a class="marca" href="index.html">
+        <span class="marca-nombre">IRIS</span>
+        <span class="marca-subtitulo">Florería</span>
+    </a>
+
+    <button class="boton-menu" type="button"
+        aria-label="Abrir menú" aria-expanded="false">
+        ☰
+    </button>
+
+    <nav class="navegacion">
+        <ul class="menu">
+            <li><a class="activo" href="index.html">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <!-- ACCESO AL CARRITO -->
+    <a class="icono-carrito" href="carrito.html" aria-label="Ver carrito">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 3h2l2.2 11.1a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 7H6"/>
+            <circle cx="10" cy="20" r="1.3"/>
+            <circle cx="18" cy="20" r="1.3"/>
+        </svg>
+    </a>
+</header>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main>
+
+<!-- PORTADA PRINCIPAL -->
+<section class="portada" aria-labelledby="titulo-portada">
+
+    <div class="portada-fondo">
+        <img
+            src="portada (5).jpg"
+            alt="Hermoso arreglo floral de rosas y flores en tonos rosados">
+    </div>
+
+    <div class="portada-contenido">
+
+        <h1 id="titulo-portada">
+            Flores que hacen la<br>
+            vida <em>más bonita</em>
+        </h1>
+
+        <!-- BOTONES DE ACCESO -->
+        <div class="acciones-portada">
+
+            <a class="boton boton-principal" href="productos.html">
+                Comprar flores <span>→</span>
+            </a>
+
+            <a class="boton boton-secundario" href="contacto.html">
+                Contacto
+            </a>
+
+        </div>
+
+        <!-- BENEFICIOS DE LA FLORERÍA -->
+        <ul class="beneficios">
+            <li>Entregas a domicilio</li>
+            <li>Diseños personalizados</li>
+            <li>Compra fácil y segura</li>
+        </ul>
+
+    </div>
+
+</section>
+
+<!-- SECCIÓN DE PRODUCTOS MÁS VENDIDOS -->
+<section class="seccion mas-vendidos">
+    <header class="encabezado-seccion">
+        <h2>Los <em>más buscados</em></h2>
+        <p>Lo que más enamora a quienes visitan la tienda.</p>
+    </header>
+
+    <!-- TARJETAS DE PRODUCTOS DESTACADOS -->
+    <div class="rejilla-productos">
+
+        <article class="tarjeta-producto">
+            <img src="estrella.jpg" alt="Ramo en forma de estrella">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Start | Ramo de estrella</h3>
+                <p class="datos-producto"><strong>$2,000</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Rosas</p>
+            <a class="enlace-producto" href="productos.html#start">Ver producto</a>
+        </article>
+
+        <article class="tarjeta-producto"> 
+            <img src="coreano.jpeg" alt="Ramo estilo coreano">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Miranda | Estilo coreano</h3>
+                <p class="datos-producto"><strong>$1,250</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Ramos Mixtos</p>
+            <a class="enlace-producto" href="productos.html#miranda">Ver producto</a>
+        </article>
+
+        <article class="tarjeta-producto">
+            <img src="rosas.jpeg" alt="Ramo de rosas en forma de corazón">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Aurora | Ramo corazón</h3>
+                <p class="datos-producto"><strong>$1,000</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Rosas</p>
+            <a class="enlace-producto" href="productos.html#aurora">Ver producto</a>
+        </article>
+
+        <article class="tarjeta-producto">
+            <img src="gerberas.jpeg" alt="Ramo de gerberas en tonos rosas">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Pink | Ramo rosa</h3>
+                <p class="datos-producto"><strong>$650</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Gerberas</p>
+            <a class="enlace-producto" href="productos.html#pink">Ver producto</a>
+        </article>
+
+        <article class="tarjeta-producto">
+            <img src="minimalista.jpeg" alt="Ramo minimalista">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Angélica | Minimalista</h3>
+                <p class="datos-producto"><strong>$1,750</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Ramos Mixtos</p>
+            <a class="enlace-producto" href="productos.html#angélica">Ver producto</a>
+        </article>
+
+    </div>
+
+    <!-- ENLACE AL CATÁLOGO COMPLETO -->
+    <p class="centrar">
+        <a class="boton-catalogo" href="productos.html">
+            VER TODO EL CATÁLOGO →
+        </a>
+    </p>
+</section>
+</main>
+
+<!-- PIE DE PÁGINA -->
+<footer class="pie-pagina">
+    <a class="marca marca-pie" href="index.html">
+        <span class="marca-nombre">IRIS</span>
+        <span class="marca-subtitulo">Florería</span>
+    </a>
+    <p>Flores para acompañar tus momentos especiales.</p>
+    <p class="copyright">© 2026 IRIS Florería.</p>
+</footer>
+
+<script src="main.js" defer></script>
+
+</body>
+</html>
