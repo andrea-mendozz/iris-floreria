@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRIS Florería | Finalizar pedido</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ENCABEZADO Y MENÚ -->
+<header class="encabezado">
+    <a class="marca" href="index.html">
+        <span class="marca-nombre">IRIS</span>
+        <span class="marca-subtitulo">Florería</span>
+    </a>
+
+    <button class="boton-menu" type="button"
+        aria-label="Abrir menú" aria-expanded="false">
+        ☰
+    </button>
+
+    <nav class="navegacion">
+        <ul class="menu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a href="contacto.html">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <a class="icono-carrito" href="carrito.html" aria-label="Ver carrito">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 3h2l2.2 11.1a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 7H6"/>
+            <circle cx="10" cy="20" r="1.3"/>
+            <circle cx="18" cy="20" r="1.3"/>
+        </svg>
+    </a>
+</header>
+
+<!-- CONTENIDO PRINCIPAL -->
+<main class="pagina-interna">
+
+    <header class="encabezado-seccion">
+        <p class="sobre-titulo">UN DETALLE ESPECIAL TE ESPERA</p>
+        <h1>Finaliza tu <em>pedido</em></h1>
+        <p>Completa tus datos para continuar con tu compra.</p>
+    </header>
+
+    <section class="contenedor-contacto">
+
+        <!-- RESUMEN DE COMPRA -->
+        <section class="texto-contacto">
+            <h2>Información de tu pedido</h2>
+            <p>Revisa tus datos y selecciona la forma en que deseas recibir tus flores.</p>
+
+            <div class="resumen-carrito">
+                <h3>Resumen de compra</h3>
+                <div id="resumen-final"></div>
+                <hr>
+                <p class="fila-resumen total-carrito">
+                    <span>Total</span>
+                    <strong id="total-final">$0 MXN</strong>
+                </p>
+            </div>
+        </section>
+
+        <!-- FORMULARIO -->
+        <form class="formulario-contacto" id="formulario-pedido"
+            action="procesar.php" method="POST">
+
+            <fieldset>
+                <legend>Datos del cliente</legend>
+
+                <label for="nombre">Nombre completo *</label>
+                <input type="text" id="nombre" name="nombre"
+                    placeholder="Escribe tu nombre" required minlength="3">
+
+                <label for="correo">Correo electrónico *</label>
+                <input type="email" id="correo" name="correo"
+                    placeholder="ejemplo@correo.com" required>
+
+                <label for="telefono">Teléfono *</label>
+                <input type="tel" id="telefono" name="telefono"
+                    placeholder="10 dígitos" pattern="[0-9]{10}" required>
+
+                <label for="entrega">Tipo de entrega *</label>
+                <select id="entrega" name="entrega" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="Domicilio">Entrega a domicilio</option>
+                    <option value="Recoger">Recoger en tienda</option>
+                </select>
+
+                <label for="direccion">Dirección de entrega *</label>
+                <input type="text" id="direccion" name="direccion"
+                    placeholder="Calle, número, colonia y ciudad" required>
+
+                <small id="mensaje-direccion"></small>
+
+                <label for="fecha">Fecha deseada de entrega *</label>
+                <input type="date" id="fecha" name="fecha" required>
+
+                <label for="pago">Método de pago *</label>
+                <select id="pago" name="pago" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="Transferencia">Transferencia bancaria</option>
+                    <option value="Deposito">Depósito bancario</option>
+                    <option value="Efectivo">Pago en tienda</option>
+                </select>
+
+                <label for="mensaje">Indicaciones adicionales</label>
+                <textarea id="mensaje" name="mensaje" rows="4"
+                    placeholder="Escribe algún detalle de tu pedido..."></textarea>
+
+                <button class="boton boton-principal boton-enviar" type="submit">
+                    Confirmar solicitud de pedido
+                </button>
+            </fieldset>
+        </form>
+
+    </section>
+</main>
+
+<!-- PIE DE PÁGINA -->
+<footer class="pie-pagina">
+    <a class="marca marca-pie" href="index.html">
+        <span class="marca-nombre">IRIS</span>
+        <span class="marca-subtitulo">Florería</span>
+    </a>
+
+    <p>Flores para acompañar tus momentos especiales.</p>
+    <p class="copyright">© 2026 IRIS Florería. Todos los derechos reservados.</p>
+</footer>
+
+<!-- FUNCIONES PARA FINALIZAR EL PEDIDO -->
+<script>
+
+// RECUPERAR EL CARRITO
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+const resumen = document.getElementById("resumen-final");
+const formularioPedido = document.getElementById("formulario-pedido");
+const botonEnviar = formularioPedido.querySelector("button");
+
+let total = 0;
+
+// MOSTRAR RESUMEN DE COMPRA
+function actualizarResumen() {
+
+    resumen.innerHTML = "";
+    total = 0;
+
+    if (carrito.length === 0) {
+        resumen.textContent = "No hay productos en tu carrito.";
+        botonEnviar.disabled = true;
+    } else {
+
+        botonEnviar.disabled = false;
+
+        carrito.forEach(producto => {
+
+            const importe = Number(producto.precio) * Number(producto.cantidad);
+            total += importe;
+
+            const fila = document.createElement("p");
+            fila.className = "fila-resumen";
+
+            fila.textContent =
+                producto.nombre + " x " +
+                producto.cantidad + " — $" +
+                importe.toLocaleString("es-MX");
+
+            resumen.appendChild(fila);
+        });
+    }
+
+    document.getElementById("total-final").textContent =
+        "$" + total.toLocaleString("es-MX") + " MXN";
+}
+
+actualizarResumen();
+
+// ESTABLECER FECHA MÍNIMA
+const campoFecha = document.getElementById("fecha");
+
+function obtenerFechaLocal() {
+
+    const hoy = new Date();
+
+    return hoy.getFullYear() + "-" +
+        String(hoy.getMonth() + 1).padStart(2, "0") + "-" +
+        String(hoy.getDate()).padStart(2, "0");
+}
+
+campoFecha.min = obtenerFechaLocal();
+
+// CAMBIAR DIRECCIÓN SEGÚN TIPO DE ENTREGA
+const entrega = document.getElementById("entrega");
+const direccion = document.getElementById("direccion");
+const mensajeDireccion = document.getElementById("mensaje-direccion");
+
+entrega.addEventListener("change", function() {
+
+    if (this.value === "Recoger") {
+
+        direccion.required = false;
+        direccion.disabled = true;
+        direccion.value = "";
+
+        mensajeDireccion.textContent =
+            "Tu pedido estará disponible para recoger en IRIS Florería.";
+
+    } else {
+
+        direccion.disabled = false;
+        direccion.required = true;
+
+        mensajeDireccion.textContent = "";
+
+        direccion.placeholder =
+            "Calle, número, colonia y ciudad";
+    }
+});
+
+// VALIDAR FORMULARIO
+formularioPedido.noValidate = true;
+
+formularioPedido.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    if (carrito.length === 0) {
+        alert("Tu carrito está vacío.");
+        return;
+    }
+
+    const nombre = document.getElementById("nombre");
+    const correo = document.getElementById("correo");
+    const telefono = document.getElementById("telefono");
+    const fecha = document.getElementById("fecha");
+    const pago = document.getElementById("pago");
+
+    // VERIFICAR SI TODOS LOS CAMPOS ESTÁN VACÍOS
+    const todosVacios =
+        !nombre.value.trim() &&
+        !correo.value.trim() &&
+        !telefono.value.trim() &&
+        !entrega.value &&
+        (entrega.value !== "Recoger" && !direccion.value.trim()) &&
+        !fecha.value &&
+        !pago.value;
+
+    if (todosVacios) {
+        alert("Por favor, completa todos los campos obligatorios.");
+        nombre.focus();
+        return;
+    }
+
+    // VALIDAR NOMBRE
+    if (nombre.value.trim().length < 3) {
+        alert("Escribe tu nombre completo (mínimo 3 caracteres).");
+        nombre.focus();
+        return;
+    }
+
+    // VALIDAR CORREO
+    const emailValido =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value.trim());
+
+    if (!emailValido) {
+        alert("Escribe un correo electrónico válido.");
+        correo.focus();
+        return;
+    }
+
+    // VALIDAR TELÉFONO
+    const telefonoValido =
+        /^[0-9]{10}$/.test(telefono.value.trim());
+
+    if (!telefonoValido) {
+        alert("Escribe un teléfono válido de 10 dígitos.");
+        telefono.focus();
+        return;
+    }
+
+    // VALIDAR TIPO DE ENTREGA
+    if (!entrega.value) {
+        alert("Por favor, selecciona un tipo de entrega.");
+        entrega.focus();
+        return;
+    }
+
+    // VALIDAR DIRECCIÓN
+    if (entrega.value === "Domicilio" && !direccion.value.trim()) {
+        alert("Por favor, escribe tu dirección de entrega.");
+        direccion.focus();
+        return;
+    }
+
+    // VALIDAR FECHA
+    if (!fecha.value) {
+        alert("Por favor, selecciona una fecha de entrega.");
+        fecha.focus();
+        return;
+    }
+
+    if (fecha.value < campoFecha.min) {
+        alert("Selecciona una fecha igual o posterior a hoy.");
+        fecha.focus();
+        return;
+    }
+
+    // VALIDAR MÉTODO DE PAGO
+    if (!pago.value) {
+        alert("Por favor, selecciona un método de pago.");
+        pago.focus();
+        return;
+    }
+
+    if (!formularioPedido.checkValidity()) {
+        formularioPedido.reportValidity();
+        return;
+    }
+
+    // PREPARAR INFORMACIÓN PARA PHP
+    const datosPedido = new FormData(formularioPedido);
+
+    datosPedido.append("productos", JSON.stringify(carrito));
+    datosPedido.append("total", total);
+
+    // EVITAR ENVÍOS DUPLICADOS
+    botonEnviar.disabled = true;
+    botonEnviar.textContent = "Enviando pedido...";
+
+    try {
+
+        const respuesta = await fetch("procesar.php", {
+            method: "POST",
+            body: datosPedido
+        });
+
+        if (!respuesta.ok) {
+            throw new Error("Error en el servidor.");
+        }
+
+        const resultado = await respuesta.json();
+
+        if (resultado.exito) {
+
+            // ELIMINAR CARRITO DESPUÉS DE GUARDAR
+            localStorage.removeItem("carrito");
+            carrito = [];
+
+            // LIMPIAR FORMULARIO
+            formularioPedido.reset();
+
+            // RESTABLECER DIRECCIÓN
+            direccion.disabled = false;
+            direccion.required = true;
+            mensajeDireccion.textContent = "";
+
+            // ACTUALIZAR RESUMEN Y TOTAL
+            actualizarResumen();
+
+            alert("¡Gracias por tu pedido! Tu solicitud se guardó correctamente.");
+
+        } else {
+
+            alert(resultado.mensaje || "No se pudo guardar tu pedido.");
+
+            botonEnviar.disabled = false;
+            botonEnviar.textContent = "Confirmar solicitud de pedido";
+        }
+
+    } catch (error) {
+
+        console.error("Error:", error);
+
+        alert("Ocurrió un error al enviar tu pedido. Inténtalo nuevamente.");
+
+        botonEnviar.disabled = false;
+        botonEnviar.textContent = "Confirmar solicitud de pedido";
+    }
+
+});
+
+</script>
+
+<script src="main.js" defer></script>
+
+</body>
+</html>

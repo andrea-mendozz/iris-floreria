@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRIS Florería | Contacto</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ENCABEZADO Y MENÚ -->
+<header class="encabezado">
+    <a class="marca" href="index.html">
+        <span class="marca-nombre">IRIS</span>
+        <span class="marca-subtitulo">Florería</span>
+    </a>
+
+    <button class="boton-menu" type="button"
+        aria-label="Abrir menú" aria-expanded="false">
+        ☰
+    </button>
+
+    <nav class="navegacion">
+        <ul class="menu">
+            <li><a href="index.html">Inicio</a></li>
+            <li><a href="productos.html">Productos</a></li>
+            <li><a class="activo" href="contacto.html">Contacto</a></li>
+        </ul>
+    </nav>
+
+    <a class="icono-carrito" href="carrito.html" aria-label="Ver carrito">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 3h2l2.2 11.1a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 7H6"/>
+            <circle cx="10" cy="20" r="1.3"/>
+            <circle cx="18" cy="20" r="1.3"/>
+        </svg>
+    </a>
+</header>
+
+<!-- CONTENIDO PRINCIPAL DE CONTACTO -->
+<main class="pagina-interna">
+
+    <header class="encabezado-seccion">
+        <p class="sobre-titulo">ESTAMOS PARA AYUDARTE</p>
+        <h1>Hablemos de <em>flores</em></h1>
+        <p>Cuéntanos qué necesitas y te ayudaremos a crear un detalle especial.</p>
+    </header>
+
+    <section class="contenedor-contacto">
+
+        <!-- INFORMACIÓN DE ATENCIÓN AL CLIENTE -->
+        <section class="texto-contacto">
+            <h2>Contacto y atención al cliente</h2>
+            <p>
+                Utiliza este formulario para solicitar información,
+                preguntar por un arreglo o pedir una cotización personalizada.
+            </p>
+            <p class="nota-contacto">
+                Los campos marcados con * son obligatorios.
+            </p>
+        </section>
+
+        <!-- FORMULARIO DE CONTACTO -->
+        <form class="formulario-contacto" id="formulario-contacto" action="procesar_contacto.php" method="POST">
+            <fieldset>
+                <legend>Datos de contacto</legend>
+
+                <label for="nombre">Nombre completo *</label>
+                <input type="text" id="nombre" name="nombre"
+                    placeholder="Escribe tu nombre"
+                    minlength="3" maxlength="70" required>
+
+                <label for="correo">Correo electrónico *</label>
+                <input type="email" id="correo" name="correo"
+                    placeholder="ejemplo@correo.com" required>
+
+                <label for="telefono">Teléfono*</label>
+                <input type="tel" id="telefono" name="telefono"
+                    placeholder="10 dígitos"
+                    pattern="[0-9]{10}"
+                    title="Escribe un teléfono de 10 dígitos"
+                    required>
+
+                <label for="motivo">Motivo de contacto *</label>
+                <select id="motivo" name="motivo" required>
+                    <option value="">Selecciona una opción</option>
+                    <option value="cotizacion">Solicitar una cotización</option>
+                    <option value="producto">Información de un producto</option>
+                    <option value="pedido">Seguimiento de un pedido</option>
+                    <option value="personalizado">Diseño personalizado</option>
+                    <option value="otro">Otro asunto</option>
+                </select>
+
+                <label for="mensaje">Cuéntanos qué necesitas *</label>
+                <textarea id="mensaje" name="mensaje" rows="6"
+                    placeholder="Escribe tu mensaje..."
+                    minlength="10" maxlength="600" required></textarea>
+
+                <label class="aceptacion">
+                    <input type="checkbox" name="privacidad" required>
+                    Acepto que IRIS Florería utilice mis datos para responder a mi solicitud.
+                </label>
+
+                <button class="boton boton-principal boton-enviar" type="submit">
+                    Enviar mensaje
+                </button>
+            </fieldset>
+        </form>
+
+    </section>
+</main>
+
+<!-- PIE DE PÁGINA -->
+<footer class="pie-pagina">
+    <a class="marca marca-pie" href="index.html">
+        <span class="marca-nombre">IRIS</span>
+        <span class="marca-subtitulo">Florería</span>
+    </a>
+    <p>Flores para acompañar tus momentos especiales.</p>
+    <p class="copyright">© 2026 IRIS Florería.</p>
+</footer>
+
+<script src="main.js" defer></script>
+
+</body>
+</html>

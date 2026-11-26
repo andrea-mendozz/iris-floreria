@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IRIS Florería | Productos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<!-- ENCABEZADO Y MENÚ DE NAVEGACIÓN -->
+<header class="encabezado">
+    <a class="marca" href="index.html">
+        <span class="marca-nombre">IRIS</span>
+        <span class="marca-subtitulo">Florería</span>
+    </a>
+
+    <button class="boton-menu" type="button"
+        aria-label="Abrir menú" aria-expanded="false">
+        ☰
+    </button>
+
+    <nav class="navegacion">
+        <ul class="menu">
+
+            <li>
+                <a href="index.html">Inicio</a>
+            </li>
+
+            <li>
+                <a class="activo" href="productos.html">Productos</a>
+            </li>
+
+            <li>
+                <a href="contacto.html">Contacto</a>
+            </li>
+
+        </ul>
+    </nav>
+
+    <!-- ACCESO AL CARRITO -->
+    <a class="icono-carrito" href="carrito.html" aria-label="Ver carrito">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M3 3h2l2.2 11.1a2 2 0 0 0 2 1.6h8.9a2 2 0 0 0 1.9-1.4L22 7H6"/>
+            <circle cx="10" cy="20" r="1.3"/>
+            <circle cx="18" cy="20" r="1.3"/>
+        </svg>
+    </a>
+</header>
+
+<!-- CATÁLOGO DE PRODUCTOS -->
+<main class="pagina-interna">
+
+    <header class="encabezado-seccion">
+        <p class="sobre-titulo">ENCUENTRA TU DETALLE IDEAL</p>
+        <h1>Nuestros <em>productos</em></h1>
+        <p>Arreglos florales para cada persona y cada ocasión.</p>
+    </header>
+
+    <!-- FILTROS DE CATEGORÍAS -->
+    <nav class="filtros-categorias" aria-label="Categorías">
+        <a href="#todos">Todos</a>
+        <a href="#rosas">Rosas</a>
+        <a href="#tulipanes">Tulipanes</a>
+        <a href="#orquideas">Orquídeas</a>
+        <a href="#gerberas">Gerberas</a>
+        <a href="#ramos mixtos">Ramos Mixtos</a>
+        <a href="#graduacion">Graduación</a>
+        <a href="#aniversario">Aniversario</a>
+        <a href="#condolencias">Condolencias</a>
+        <a href="#cumpleaños">Cumpleaños</a>
+    </nav>
+
+    <!-- TARJETAS DEL CATÁLOGO -->
+    <section class="rejilla-productos catalogo-completo">
+
+        <article class="tarjeta-producto" id="start">
+            <img src="estrella.jpg" alt="Ramo en forma de estrella" id="rosas" data-descripcion="Ramo en forma de estrella elaborado con 100 rosas en tonos rosa pastel, rosa claro y crema, acompañado de pequeños detalles florales y listones decorativos.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Start | Ramo de estrella</h3>
+                <p class="datos-producto"><strong>$2,000</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Rosas</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Start | Ramo de estrella',2000,'estrella.jpg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="pasión">
+            <img src="buchon.jpg" alt="Ramo de rosas rojas" id="rosas" data-descripcion="Elegante ramo buchón compuesto por 100 rosas rojas, acomodadas en forma redonda y envueltas en papel negro, ideal para expresar amor y pasión.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Pasión | Ramo buchon</h3>
+                <p class="datos-producto"><strong>$1,500</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Rosas</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Pasión | Ramo buchon',1500,'buchon.jpg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="miranda">
+            <img src="coreano.jpeg" alt="Ramo estilo coreano" id="ramos mixtos" data-descripcion="Arreglo floral estilo coreano con 30 flores variadas, entre rosas, lirios, gerberas y flores de temporada, acompañado de follaje y delicados envoltorios.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Miranda | Estilo coreano</h3>
+                <p class="datos-producto"><strong>$1,250</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Ramos Mixtos</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Miranda | Estilo coreano',1250,'coreano.jpeg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="aurora">
+            <img src="rosas.jpeg" alt="Ramo de rosas en forma de corazón" id="rosas" data-descripcion="Arreglo romántico en forma de corazón con 250 rosas en tonos rosados, acompañado de flores complementarias y detalles decorativos para darle un acabado delicado.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Aurora | Ramo corazón</h3>
+                <p class="datos-producto"><strong>$1,000</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Rosas</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Aurora | Ramo corzón',1000,'rosas.jpeg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="pink">
+            <img src="gerberas.jpeg" alt="Ramo de gerberas en tonos rosas" id="gerberas" data-descripcion="Bouquet de 50 flores, compuesto por rosas rosadas y gerberas blancas, acompañado de pequeñas flores de relleno y envoltura en tonos pastel para un acabado romántico y delicado.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Pink | Ramo rosa</h3>
+                <p class="datos-producto"><strong>$650</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Gerberas</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Pink | Ramo rosa',650,'gerberas.jpeg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="angélica">
+            <img src="minimalista.jpeg" alt="Ramo minimalista" id="ramos mixtos" data-descripcion="Arreglo de 35 flores, con rosas, lirios, orquídeas y flores complementarias en tonos blancos, crema y rosa suave, cuidadosamente acomodadas en una envoltura elegante de estilo minimalista.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Angélica | Minimalista</h3>
+                <p class="datos-producto"><strong>$1,750</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Ramos Mixtos</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Angélica | Minimalista',1750,'minimalista.jpeg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="jardín">
+            <img src="tulipanes.jpeg" alt="Ramo de tulipanes rosas" id="tulipanes" data-descripcion="Bouquet de 20 tulipanes rosados, seleccionados y acomodados cuidadosamente con follaje natural y envoltura en tonos rosa claro, ideal para regalar en ocasiones especiales.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Jardín | Tulipanes delicados</h3>
+                <p class="datos-producto"><strong>$850</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Tulipanes</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Jardín | Tulipanes delicados',850,'tulipanes.jpeg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="floral">
+            <img src="orquideas.jpeg" alt="Ramo de orquídeas" id="orquideas" data-descripcion="Arreglo de 20 flores, entre rosas blancas, orquídeas y flores lilas y moradas, complementado con follaje y detalles delicados que crean una composición armoniosa.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Floral | Paleta morada</h3>
+                <p class="datos-producto"><strong>$700</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Orquídeas</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Florales | Paleta morada',700,'orquideas.jpeg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="amor">
+            <img src="aniversario.jpeg" alt="Ramo para aniversario" id="aniversario" data-descripcion="Arreglo de 30 rosas rosadas acompañado de nube blanca, delicados detalles de perlas y un listón satinado, presentado en una envoltura rosa para una ocasión especial.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Amor | Diseño para aniversario</h3>
+                <p class="datos-producto"><strong>$950</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Aniversario</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Amor | Diseño para aniversario',950,'aniversario.jpeg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="eternal">
+            <img src="condolencias.jpeg" alt="Arreglo funerario" id="condolencias" data-descripcion="Corona floral de 35 flores blancas, entre margaritas, rosas y flores de temporada, complementada con follaje verde y detalles delicados, ideal para expresar condolencias.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Eternal | Corona funeraria</h3>
+                <p class="datos-producto"><strong>$900</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Condolencias</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Eternal | Corona funeraria',900,'condolencias.jpeg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="birthday">
+            <img src="birthday.jpeg" alt="Ramo para cumpleaños" id="cumpleaños" data-descripcion="Ramo de 30 flores, compuesto por rosas rosadas y lirios orientales, acompañado de follaje y una envoltura rosa con listones decorativos, perfecto para celebrar un cumpleaños.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Birthday | Ramo de cumpleaños</h3>
+                <p class="datos-producto"><strong>$1,300</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Cumpleaños</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Birthday | Ramo de cumpleaños',1300,'birthday.jpeg')">Agregar al carrito</button>
+        </article>
+
+        <article class="tarjeta-producto" id="sueño">
+            <img src="graduacion.jpeg" alt="Ramo para graduación" id="graduacion" data-descripcion="Ramo de 25 rosas en tonos rosa pastel, acompañado de un moño satinado, envoltura decorativa y un detalle de birrete de graduación, ideal para celebrar un logro importante.">
+            <div class="informacion-producto">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h3>Sueño | Ramo rosa de graduación</h3>
+                <p class="datos-producto"><strong>$800</strong> <small>MXN</small></p>
+            </div>
+            <p class="categoria-producto">Graduación</p>
+            <button class="boton-agregar" type="button" onclick="agregarProducto('Sueño | Ramo rosa de graduación',800,'graduacion.jpeg')">Agregar al carrito</button>
+        </article>
+
+    </section>
+
+    <!-- VENTANA CON INFORMACIÓN DEL PRODUCTO -->
+    <div class="modal-producto" id="modalProducto">
+        <div class="contenido-modal">
+            <button class="cerrar-modal" id="cerrarModal" type="button">×</button>
+
+            <img id="imagenModal" src="" alt="">
+
+            <div class="datos-modal">
+                <p class="marca-producto">IRIS FLORERÍA</p>
+                <h2 id="nombreModal"></h2>
+                <p id="descripcionModal"></p>
+                <p class="datos-producto">
+                    <strong id="precioModal"></strong> <small>MXN</small>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</main>
+
+<!-- PIE DE PÁGINA -->
+<footer class="pie-pagina">
+    <a class="marca marca-pie" href="index.html">
+        <span class="marca-nombre">IRIS</span>
+        <span class="marca-subtitulo">Florería</span>
+    </a>
+    <p>Flores para acompañar tus momentos especiales.</p>
+    <p class="copyright">© 2026 IRIS Florería.</p>
+</footer>
+
+<!-- FUNCIÓN PARA AGREGAR PRODUCTOS AL CARRITO -->
+<script>
+function agregarProducto(nombre, precio, imagen) {
+    let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+    let producto = carrito.find(item => item.nombre === nombre);
+
+    if (producto) {
+        producto.cantidad++;
+    } else {
+        carrito.push({
+            nombre: nombre,
+            precio: precio,
+            imagen: imagen,
+            cantidad: 1
+        });
+    }
+
+    localStorage.setItem("carrito", JSON.stringify(carrito));
+    alert("¡Producto agregado al carrito!");
+}
+</script>
+
+<script src="main.js" defer></script>
+
+</body>
+</html>
