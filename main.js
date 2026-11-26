@@ -24,57 +24,108 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // VALIDACIÓN DEL FORMULARIO DE CONTACTO
+    // VALIDACIÓN Y ENVÍO DEL FORMULARIO DE CONTACTO
     const formulario = document.getElementById("formulario-contacto");
 
     if (formulario) {
-        formulario.addEventListener("submit", (evento) => {
+        formulario.noValidate = true;
+
+        formulario.addEventListener("submit", async (evento) => {
             evento.preventDefault();
 
             const nombre = document.getElementById("nombre");
             const correo = document.getElementById("correo");
             const telefono = document.getElementById("telefono");
+            const motivo = document.getElementById("motivo");
             const mensaje = document.getElementById("mensaje");
 
+            // VERIFICAR SI TODOS LOS CAMPOS ESTÁN VACÍOS
+            const todosVacios =
+                !nombre.value.trim() &&
+                !correo.value.trim() &&
+                !telefono.value.trim() &&
+                !motivo.value.trim() &&
+                !mensaje.value.trim();
+
+            if (todosVacios) {
+                alert("Por favor, completa todos los campos.");
+                nombre.focus();
+                return;
+            }
+
+            // VALIDAR CORREO ELECTRÓNICO
             const emailValido =
                 /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value.trim());
 
-            const telefonoValido = /^[0-9]{10}$/.test(telefono.value.trim());
+            // VALIDAR TELÉFONO
+            const telefonoValido =
+                /^[0-9]{10}$/.test(telefono.value.trim());
 
+            // VALIDAR NOMBRE
             if (nombre.value.trim().length < 3) {
                 alert("Escribe tu nombre completo (mínimo 3 caracteres).");
                 nombre.focus();
                 return;
             }
 
+            // VALIDAR CORREO
             if (!emailValido) {
                 alert("Escribe un correo electrónico válido.");
                 correo.focus();
                 return;
             }
 
+            // VALIDAR TELÉFONO
             if (!telefonoValido) {
                 alert("Escribe un teléfono válido de 10 dígitos.");
                 telefono.focus();
                 return;
             }
 
+            // VALIDAR MOTIVO
+            if (!motivo.value.trim()) {
+                alert("Por favor, selecciona un motivo de contacto.");
+                motivo.focus();
+                return;
+            }
+
+            // VALIDAR MENSAJE
             if (mensaje.value.trim().length < 10) {
                 alert("Tu mensaje debe tener al menos 10 caracteres.");
                 mensaje.focus();
                 return;
             }
 
+            // COMPROBAR LOS DEMÁS CAMPOS OBLIGATORIOS
             if (!formulario.checkValidity()) {
                 formulario.reportValidity();
                 return;
             }
 
-            alert("¡Gracias por contactar a IRIS Florería! Tu formulario fue validado correctamente.");
-            formulario.reset();
+            // ENVIAR DATOS A MYSQL
+            try {
+                const respuesta = await fetch("procesar_contacto.php", {
+                    method: "POST",
+                    body: new FormData(formulario)
+                });
+
+                const resultado = await respuesta.json();
+
+                if (resultado.exito) {
+                    alert("¡Gracias por contactar a IRIS Florería! Tu consulta se guardó correctamente.");
+                    formulario.reset();
+                } else {
+                    alert(resultado.mensaje);
+                }
+
+            } catch (error) {
+                console.error("Error:", error);
+                alert("No se pudo enviar el formulario. Verifica que XAMPP esté funcionando.");
+            }
         });
     }
 });
+
 
 // VENTANA CON INFORMACIÓN DE LOS PRODUCTOS
 document.addEventListener("DOMContentLoaded", () => {
@@ -117,6 +168,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     });
 });
+
 
 // FILTRO DE CATEGORÍAS DEL CATÁLOGO
 document.addEventListener("DOMContentLoaded", () => {

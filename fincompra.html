@@ -48,7 +48,7 @@
 
     <section class="contenedor-contacto">
 
-        <!-- INFORMACIÓN Y RESUMEN DE COMPRA -->
+        <!-- RESUMEN DE COMPRA -->
         <section class="texto-contacto">
             <h2>Información de tu pedido</h2>
             <p>Revisa tus datos y selecciona la forma en que deseas recibir tus flores.</p>
@@ -64,8 +64,10 @@
             </div>
         </section>
 
-        <!-- FORMULARIO PARA FINALIZAR EL PEDIDO -->
-        <form class="formulario-contacto" id="formulario-pedido">
+        <!-- FORMULARIO -->
+        <form class="formulario-contacto" id="formulario-pedido"
+            action="procesar.php" method="POST">
+
             <fieldset>
                 <legend>Datos del cliente</legend>
 
@@ -88,12 +90,14 @@
                     <option value="Recoger">Recoger en tienda</option>
                 </select>
 
-                <label for="direccion">Dirección de entrega</label>
+                <label for="direccion">Dirección de entrega *</label>
                 <input type="text" id="direccion" name="direccion"
-                    placeholder="Calle, número, colonia y ciudad">
+                    placeholder="Calle, número, colonia y ciudad" required>
 
-                <label for="fecha">Fecha deseada de entrega</label>
-                <input type="date" id="fecha" name="fecha">
+                <small id="mensaje-direccion"></small>
+
+                <label for="fecha">Fecha deseada de entrega *</label>
+                <input type="date" id="fecha" name="fecha" required>
 
                 <label for="pago">Método de pago *</label>
                 <select id="pago" name="pago" required>
@@ -122,56 +126,106 @@
         <span class="marca-nombre">IRIS</span>
         <span class="marca-subtitulo">Florería</span>
     </a>
+
     <p>Flores para acompañar tus momentos especiales.</p>
     <p class="copyright">© 2026 IRIS Florería. Todos los derechos reservados.</p>
 </footer>
 
 <!-- FUNCIONES PARA FINALIZAR EL PEDIDO -->
 <script>
-// RECUPERAR EL CARRITO Y MOSTRAR EL RESUMEN DE COMPRA
-const carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
+// RECUPERAR EL CARRITO
+let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
+
 const resumen = document.getElementById("resumen-final");
+const formularioPedido = document.getElementById("formulario-pedido");
+const botonEnviar = formularioPedido.querySelector("button");
 
 let total = 0;
 
-// CALCULAR EL TOTAL DE LOS PRODUCTOS
-if (carrito.length === 0) {
-    resumen.textContent = "No hay productos en tu carrito.";
-    document.querySelector("#formulario-pedido button").disabled = true;
-} else {
-    carrito.forEach(producto => {
-        const importe = producto.precio * producto.cantidad;
-        total += importe;
+// MOSTRAR RESUMEN DE COMPRA
+function actualizarResumen() {
 
-        const fila = document.createElement("p");
-        fila.className = "fila-resumen";
-        fila.textContent = producto.nombre + " x " +
-            producto.cantidad + " — $" +
-            importe.toLocaleString("es-MX");
+    resumen.innerHTML = "";
+    total = 0;
 
-        resumen.appendChild(fila);
-    });
+    if (carrito.length === 0) {
+        resumen.textContent = "No hay productos en tu carrito.";
+        botonEnviar.disabled = true;
+    } else {
+
+        botonEnviar.disabled = false;
+
+        carrito.forEach(producto => {
+
+            const importe = Number(producto.precio) * Number(producto.cantidad);
+            total += importe;
+
+            const fila = document.createElement("p");
+            fila.className = "fila-resumen";
+
+            fila.textContent =
+                producto.nombre + " x " +
+                producto.cantidad + " — $" +
+                importe.toLocaleString("es-MX");
+
+            resumen.appendChild(fila);
+        });
+    }
+
+    document.getElementById("total-final").textContent =
+        "$" + total.toLocaleString("es-MX") + " MXN";
 }
 
-// MOSTRAR EL TOTAL DE LA COMPRA
-document.getElementById("total-final").textContent =
-    "$" + total.toLocaleString("es-MX") + " MXN";
+actualizarResumen();
 
-// ESTABLECER LA FECHA MÍNIMA DE ENTREGA
-const fecha = document.getElementById("fecha");
-const hoy = new Date();
-fecha.min = hoy.getFullYear() + "-" +
-    String(hoy.getMonth() + 1).padStart(2, "0") + "-" +
-    String(hoy.getDate()).padStart(2, "0");
+// ESTABLECER FECHA MÍNIMA
+const campoFecha = document.getElementById("fecha");
 
-// SOLICITAR DIRECCIÓN SOLO PARA ENTREGA A DOMICILIO
-document.getElementById("entrega").addEventListener("change", function() {
-    const direccion = document.getElementById("direccion");
-    direccion.required = this.value === "Domicilio";
+function obtenerFechaLocal() {
+
+    const hoy = new Date();
+
+    return hoy.getFullYear() + "-" +
+        String(hoy.getMonth() + 1).padStart(2, "0") + "-" +
+        String(hoy.getDate()).padStart(2, "0");
+}
+
+campoFecha.min = obtenerFechaLocal();
+
+// CAMBIAR DIRECCIÓN SEGÚN TIPO DE ENTREGA
+const entrega = document.getElementById("entrega");
+const direccion = document.getElementById("direccion");
+const mensajeDireccion = document.getElementById("mensaje-direccion");
+
+entrega.addEventListener("change", function() {
+
+    if (this.value === "Recoger") {
+
+        direccion.required = false;
+        direccion.disabled = true;
+        direccion.value = "";
+
+        mensajeDireccion.textContent =
+            "Tu pedido estará disponible para recoger en IRIS Florería.";
+
+    } else {
+
+        direccion.disabled = false;
+        direccion.required = true;
+
+        mensajeDireccion.textContent = "";
+
+        direccion.placeholder =
+            "Calle, número, colonia y ciudad";
+    }
 });
 
-// VALIDAR Y GUARDAR LA SOLICITUD DEL PEDIDO
-document.getElementById("formulario-pedido").addEventListener("submit", function(event) {
+// VALIDAR FORMULARIO
+formularioPedido.noValidate = true;
+
+formularioPedido.addEventListener("submit", async function(event) {
+
     event.preventDefault();
 
     if (carrito.length === 0) {
@@ -179,18 +233,156 @@ document.getElementById("formulario-pedido").addEventListener("submit", function
         return;
     }
 
-    const datos = new FormData(this);
-    const pedido = {
-        cliente: Object.fromEntries(datos.entries()),
-        productos: carrito,
-        total: total
-    };
+    const nombre = document.getElementById("nombre");
+    const correo = document.getElementById("correo");
+    const telefono = document.getElementById("telefono");
+    const fecha = document.getElementById("fecha");
+    const pago = document.getElementById("pago");
 
-    // GUARDAR LOS DATOS DEL ÚLTIMO PEDIDO
-    localStorage.setItem("ultimoPedido", JSON.stringify(pedido));
+    // VERIFICAR SI TODOS LOS CAMPOS ESTÁN VACÍOS
+    const todosVacios =
+        !nombre.value.trim() &&
+        !correo.value.trim() &&
+        !telefono.value.trim() &&
+        !entrega.value &&
+        (entrega.value !== "Recoger" && !direccion.value.trim()) &&
+        !fecha.value &&
+        !pago.value;
 
-    alert("Tu solicitud de pedido fue preparada. Para confirmar la compra, IRIS Florería deberá revisar tus datos y acordar el pago y la entrega.");
+    if (todosVacios) {
+        alert("Por favor, completa todos los campos obligatorios.");
+        nombre.focus();
+        return;
+    }
+
+    // VALIDAR NOMBRE
+    if (nombre.value.trim().length < 3) {
+        alert("Escribe tu nombre completo (mínimo 3 caracteres).");
+        nombre.focus();
+        return;
+    }
+
+    // VALIDAR CORREO
+    const emailValido =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(correo.value.trim());
+
+    if (!emailValido) {
+        alert("Escribe un correo electrónico válido.");
+        correo.focus();
+        return;
+    }
+
+    // VALIDAR TELÉFONO
+    const telefonoValido =
+        /^[0-9]{10}$/.test(telefono.value.trim());
+
+    if (!telefonoValido) {
+        alert("Escribe un teléfono válido de 10 dígitos.");
+        telefono.focus();
+        return;
+    }
+
+    // VALIDAR TIPO DE ENTREGA
+    if (!entrega.value) {
+        alert("Por favor, selecciona un tipo de entrega.");
+        entrega.focus();
+        return;
+    }
+
+    // VALIDAR DIRECCIÓN
+    if (entrega.value === "Domicilio" && !direccion.value.trim()) {
+        alert("Por favor, escribe tu dirección de entrega.");
+        direccion.focus();
+        return;
+    }
+
+    // VALIDAR FECHA
+    if (!fecha.value) {
+        alert("Por favor, selecciona una fecha de entrega.");
+        fecha.focus();
+        return;
+    }
+
+    if (fecha.value < campoFecha.min) {
+        alert("Selecciona una fecha igual o posterior a hoy.");
+        fecha.focus();
+        return;
+    }
+
+    // VALIDAR MÉTODO DE PAGO
+    if (!pago.value) {
+        alert("Por favor, selecciona un método de pago.");
+        pago.focus();
+        return;
+    }
+
+    if (!formularioPedido.checkValidity()) {
+        formularioPedido.reportValidity();
+        return;
+    }
+
+    // PREPARAR INFORMACIÓN PARA PHP
+    const datosPedido = new FormData(formularioPedido);
+
+    datosPedido.append("productos", JSON.stringify(carrito));
+    datosPedido.append("total", total);
+
+    // EVITAR ENVÍOS DUPLICADOS
+    botonEnviar.disabled = true;
+    botonEnviar.textContent = "Enviando pedido...";
+
+    try {
+
+        const respuesta = await fetch("procesar.php", {
+            method: "POST",
+            body: datosPedido
+        });
+
+        if (!respuesta.ok) {
+            throw new Error("Error en el servidor.");
+        }
+
+        const resultado = await respuesta.json();
+
+        if (resultado.exito) {
+
+            // ELIMINAR CARRITO DESPUÉS DE GUARDAR
+            localStorage.removeItem("carrito");
+            carrito = [];
+
+            // LIMPIAR FORMULARIO
+            formularioPedido.reset();
+
+            // RESTABLECER DIRECCIÓN
+            direccion.disabled = false;
+            direccion.required = true;
+            mensajeDireccion.textContent = "";
+
+            // ACTUALIZAR RESUMEN Y TOTAL
+            actualizarResumen();
+
+            alert("¡Gracias por tu pedido! Tu solicitud se guardó correctamente.");
+
+        } else {
+
+            alert(resultado.mensaje || "No se pudo guardar tu pedido.");
+
+            botonEnviar.disabled = false;
+            botonEnviar.textContent = "Confirmar solicitud de pedido";
+        }
+
+    } catch (error) {
+
+        console.error("Error:", error);
+
+        alert("Ocurrió un error al enviar tu pedido. Inténtalo nuevamente.");
+
+        botonEnviar.disabled = false;
+        botonEnviar.textContent = "Confirmar solicitud de pedido";
+    }
+
 });
+
 </script>
 
 <script src="main.js" defer></script>
